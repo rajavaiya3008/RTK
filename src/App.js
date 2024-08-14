@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { useGetPostQuery, useGetUserQuery } from './redux/slices/api';
 
 function App() {
+  const {data:userData,isLoading:userLoading,error,isError:userError} = useGetUserQuery()
+  const {data:postData,isLoading:postLoading,isError:postError} = useGetPostQuery()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="">
+      {
+        userError ? <span>Something Went Wrong</span> :
+        userLoading ? <span>Loading...</span> :
+          userData.map((user) => <p key={user.id}>{user.name}</p>)
+      }
+      {
+        postError ? <span>Something Went Wrong</span> :
+        postLoading ? <span>Loading...</span> :
+            <p>{postData.title}</p>
+      }
     </div>
   );
 }
