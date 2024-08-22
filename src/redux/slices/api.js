@@ -8,6 +8,7 @@ export const jsonServerApi = createApi({
   endpoints: (builder) => ({
     getUser: builder.query({
       query: () => `users`,
+      providesTags:['Users']
     }),
     // getPost: builder.query({
     //   queryFn: async (arg, queryApi, extraOptions) => {
@@ -20,9 +21,18 @@ export const jsonServerApi = createApi({
     //   },
     // }),
     getPost: builder.query({
-        query: () => 'posts/1',
+        query: () => 'posts',
+        providesTags:['Posts']
+    }),
+    addPost: builder.mutation({
+      query:(body) => ({
+        url:'/posts',
+        method:'POST',
+        body
+      }),
+      invalidatesTags:['Posts']
     })
   }),
 });
 
-export const { useGetUserQuery, useGetPostQuery } = jsonServerApi;
+export const { useGetUserQuery, useGetPostQuery ,useAddPostMutation} = jsonServerApi;
